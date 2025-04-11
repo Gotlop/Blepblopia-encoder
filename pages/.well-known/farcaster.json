@@ -1,0 +1,18 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjU0MDExOCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDRjNjcwZDg1ZGQ2MzJlZmQwODVmODdjYWE1NGQ0Y2M5MTExZTkzYjgifQ",
+    "payload": "eyJkb21haW4iOiJibGVwYmxvcGlhLWVuY29kZXIudmVyY2VsLmFwcCJ9",
+    "signature": ""
+  },
+  "frame": {
+    "name": "Bleblopia Translator",
+    "version": "1",
+    "iconUrl": "https://blepblopia-encoder.vercel.app/icon.png",
+    "homeUrl": "https://blepblopia-encoder.vercel.app",
+    "imageUrl": "https://blepblopia-encoder.vercel.app/image.png",
+    "buttonTitle": "Translate",
+    "splashImageUrl": "https://blepblopia-encoder.vercel.app/splash.png",
+    "splashBackgroundColor": "#a1a1ff",
+    "webhookUrl": "https://blepblopia-encoder.vercel.app/api/webhook"
+  }
+}
