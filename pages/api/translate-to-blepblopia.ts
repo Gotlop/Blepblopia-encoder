@@ -14,8 +14,18 @@ const blepblopiaCode: BlepblopiaCode = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Tambahkan header CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+
   console.log('Endpoint /api/translate-to-blepblopia dipanggil');
   console.log('Raw request body:', req.body);
+
+  if (req.method === 'OPTIONS') {
+    // Tangani permintaan preflight CORS
+    return res.status(200).end();
+  }
 
   if (req.method !== 'POST') {
     console.log('Metode tidak diizinkan:', req.method);
@@ -25,11 +35,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   let input: string;
   try {
     // Pastikan body adalah JSON yang valid
-    if (typeof req.body === 'string') {
+    let body = req.body;
+    if (typeof body === 'string') {
       console.log('Body adalah string, mencoba parse JSON');
-      req.body = JSON.parse(req.body);
+      body = JSON.parse(body);
     }
-    input = req.body?.untrustedData?.inputText || '';
+
+    // Ekstrak inputText dari untrustedData
+    input = body?.untrustedData?.inputText || '';
+    if (!input) {
+      // Jika inputText tidak ada, periksa apakah ada data lain yang relevan
+      console.log('Tidak ada inputText, periksa body:', body);
+      input = body?.inputText || body?.text || '';
+    }
     console.log('Parsed input:', input);
   } catch (error) {
     console.error('Error parsing JSON:', error);
