@@ -132,9 +132,6 @@ export default function Home() {
         <meta name="fc:frame:button:1" content="Terjemahkan ke Blepblopia" />
         <meta name="fc:frame:button:1:action" content="post" />
         <meta name="fc:frame:button:1:target" content="https://blepblopia-encoder.vercel.app/api/translate-to-blepblopia" />
-        <meta name="fc:frame:button:2" content="Terjemahkan ke Teks" />
-        <meta name="fc:frame:button:2:action" content="post" />
-        <meta name="fc:frame:button:2:target" content="https://blepblopia-encoder.vercel.app/api/translate-to-text" />
         <meta httpEquiv="Cache-Control" content="public, max-age=31536000" />
       </Head>
       <div className={styles.body}>
