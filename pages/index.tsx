@@ -121,7 +121,7 @@ export default function Home() {
           name="fc:frame"
           content={JSON.stringify({
             version: 'next',
-            imageUrl: 'https://blepblopia-translator.vercel.app/og-image.png',
+            imageUrl: 'https://blepblopia-encoder.vercel.app/og-image.png',
             aspectRatio: '3:2',
             button: {
               title: 'Translate',
@@ -129,7 +129,7 @@ export default function Home() {
                 type: 'launch_frame',
                 name: 'Blepblopia Translator',
                 url: 'https://blepblopia-encoder.vercel.app/',
-                splashImageUrl: 'https://blepblopia-translator.vercel.app/splash.png',
+                splashImageUrl: 'https://blepblopia-encoder.vercel.app/splash.png',
                 splashBackgroundColor: '#a1a1ff',
               },
             },
