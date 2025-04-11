@@ -42,6 +42,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   console.log('Hasil terjemahan:', result);
 
+  // Periksa header Accept untuk menentukan format respons
+  const acceptHeader = req.headers.accept || '';
+  if (acceptHeader.includes('application/json')) {
+    // Kembalikan JSON untuk pengujian manual
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(200).json({
+      input,
+      translated: result,
+      message: 'Kode Blepblopia berhasil diterjemahkan ke teks',
+    });
+  }
+
   // Kembalikan HTML untuk Warpcast Frames
   res.setHeader('Content-Type', 'text/html');
   res.status(200).send(`
