@@ -14,12 +14,17 @@ const blepblopiaCode: BlepblopiaCode = {
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log('Endpoint /api/translate-to-blepblopia dipanggil');
+  console.log('Request body:', req.body);
+
   if (req.method !== 'POST') {
+    console.log('Metode tidak diizinkan:', req.method);
     return res.status(405).json({ error: 'Metode tidak diizinkan' });
   }
 
   const input = req.body?.untrustedData?.inputText || '';
   if (!input) {
+    console.log('Input teks tidak ditemukan');
     return res.status(400).json({ error: 'Input teks diperlukan' });
   }
 
@@ -28,6 +33,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     .split('')
     .map((char: string) => blepblopiaCode[char] || char)
     .join(' ') + ' blub';
+
+  console.log('Hasil terjemahan:', result);
 
   // Kembalikan HTML untuk Warpcast Frames
   res.setHeader('Content-Type', 'text/html');
