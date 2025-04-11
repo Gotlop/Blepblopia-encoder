@@ -13,16 +13,29 @@ const blepblopiaCode: BlepblopiaCode = {
   z: 'zlop', ' ': 'bblb',
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('Endpoint /api/translate-to-blepblopia dipanggil');
-  console.log('Request body:', req.body);
+  console.log('Raw request body:', req.body);
 
   if (req.method !== 'POST') {
     console.log('Metode tidak diizinkan:', req.method);
     return res.status(405).json({ error: 'Metode tidak diizinkan' });
   }
 
-  const input = req.body?.untrustedData?.inputText || '';
+  let input: string;
+  try {
+    // Pastikan body adalah JSON yang valid
+    if (typeof req.body === 'string') {
+      console.log('Body adalah string, mencoba parse JSON');
+      req.body = JSON.parse(req.body);
+    }
+    input = req.body?.untrustedData?.inputText || '';
+    console.log('Parsed input:', input);
+  } catch (error) {
+    console.error('Error parsing JSON:', error);
+    return res.status(400).json({ error: 'Invalid JSON format', details: error.message });
+  }
+
   if (!input) {
     console.log('Input teks tidak ditemukan');
     return res.status(400).json({ error: 'Input teks diperlukan' });
