@@ -25,6 +25,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    console.log('Halaman utama dimuat');
     // Simulate loading
     setTimeout(() => setIsLoading(false), 1000);
 
