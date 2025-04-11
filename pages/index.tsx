@@ -123,7 +123,7 @@ export default function Home() {
         <meta property="og:image" content="https://blepblopia-encoder.vercel.app/og-image.png" />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="800" />
+        <meta property="og:image:height" content="630" />
         {/* Farcaster Frame metadata */}
         <meta name="fc:frame" content="vNext" />
         <meta name="fc:frame:image" content="https://blepblopia-encoder.vercel.app/og-image.png" />
