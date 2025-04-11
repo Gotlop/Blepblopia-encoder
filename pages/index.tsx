@@ -25,13 +25,14 @@ export default function Home() {
   };
 
   useEffect(() => {
+    console.log('Halaman utama dimuat');
     // Simulate loading
     setTimeout(() => setIsLoading(false), 1000);
 
-    // Detect mobile device (basic heuristic based on screen width and touch support)
+    // Detect mobile device
     const checkIsMobile = () => {
       const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      const isSmallScreen = window.innerWidth <= 768; // Typical mobile breakpoint
+      const isSmallScreen = window.innerWidth <= 768;
       setIsMobile(isTouchDevice && isSmallScreen);
     };
 
@@ -94,7 +95,6 @@ export default function Home() {
       setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error('Copy failed:', err);
-      // Fallback copy
       const textarea = document.createElement('textarea');
       textarea.value = output;
       document.body.appendChild(textarea);
@@ -117,38 +117,38 @@ export default function Home() {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="screen-orientation" content="portrait" />
-        <meta
-          name="fc:frame"
-          content={JSON.stringify({
-            version: 'next',
-            imageUrl: 'https://blepblopia-encoder.vercel.app/og-image.png',
-            aspectRatio: '3:2',
-            button: {
-              title: 'Translate',
-              action: {
-                type: 'launch_frame',
-                name: 'Blepblopia Translator',
-                url: 'https://blepblopia-encoder.vercel.app/',
-                splashImageUrl: 'https://blepblopia-encoder.vercel.app/splash.png',
-                splashBackgroundColor: '#a1a1ff',
-              },
-            },
-          })}
-        />
+        {/* OpenGraph tags for better frame rendering */}
+        <meta property="og:title" content="Blepblopia Translator" />
+        <meta property="og:description" content="Terjemahkan teks ke kode Blepblopia dan sebaliknya!" />
+        <meta property="og:image" content="https://blepblopia-encoder.vercel.app/og-image.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="800" />
+        {/* Farcaster Frame metadata */}
+        <meta name="fc:frame" content="vNext" />
+        <meta name="fc:frame:image" content="https://blepblopia-encoder.vercel.app/og-image.png" />
+        <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
+        <meta name="fc:frame:input:text" content="Masukkan teks untuk diterjemahkan" />
+        <meta name="fc:frame:button:1" content="Terjemahkan ke Blepblopia" />
+        <meta name="fc:frame:button:1:action" content="post" />
+        <meta name="fc:frame:button:1:target" content="https://blepblopia-encoder.vercel.app/api/translate-to-blepblopia" />
+        <meta name="fc:frame:button:2" content="Terjemahkan ke Teks" />
+        <meta name="fc:frame:button:2:action" content="post" />
+        <meta name="fc:frame:button:2:target" content="https://blepblopia-encoder.vercel.app/api/translate-to-text" />
         <meta httpEquiv="Cache-Control" content="public, max-age=31536000" />
       </Head>
       <div className={styles.body}>
-        {isLoading && <div className={styles.loading}>Loading...</div>}
+        {isLoading && <div className={styles.loading}>Memuat...</div>}
         {isMobile && isLandscape && (
           <div className={styles.orientationWarning}>
-            Please rotate your device to portrait mode
+            Harap putar perangkat Anda ke mode potret
           </div>
         )}
         <div className={`${styles.container} ${isLoading ? styles.hidden : ''}`}>
           <h2>Blepblopia Translator</h2>
           <textarea
             className={styles.textarea}
-            placeholder="Enter text or Blepblopia code"
+            placeholder="Masukkan teks atau kode Blepblopia"
             value={input}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setInput(e.target.value)
@@ -156,10 +156,10 @@ export default function Home() {
           />
           <div className={styles.buttonContainer}>
             <button className={styles.button} onClick={translateToBlepblopia}>
-              Text to Blepblopia
+              Teks ke Blepblopia
             </button>
             <button className={styles.button} onClick={translateToText}>
-              Blepblopia to Text
+              Blepblopia ke Teks
             </button>
           </div>
           <div className={styles.output}>{output || ' '}</div>
@@ -168,7 +168,7 @@ export default function Home() {
             onClick={copyResult}
             disabled={!output}
           >
-            {isCopied ? 'Copied!' : 'Copy Result'}
+            {isCopied ? 'Tersalin!' : 'Salin Hasil'}
           </button>
         </div>
       </div>
