@@ -128,7 +128,7 @@ export default function Home() {
               action: {
                 type: 'launch_frame',
                 name: 'Blepblopia Translator',
-                url: 'https://blepblopia-translator.vercel.app',
+                url: 'https://blepblopia-encoder.vercel.app/',
                 splashImageUrl: 'https://blepblopia-translator.vercel.app/splash.png',
                 splashBackgroundColor: '#a1a1ff',
               },
