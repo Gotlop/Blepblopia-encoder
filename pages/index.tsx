@@ -125,13 +125,7 @@ export default function Home() {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         {/* Farcaster Frame metadata */}
-        <meta name="fc:frame" content="vNext" />
-        <meta name="fc:frame:image" content="https://blepblopia-encoder.vercel.app/og-image.png" />
-        <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
-        <meta name="fc:frame:input:text" content="Masukkan teks untuk diterjemahkan" />
-        <meta name="fc:frame:button:1" content="Terjemahkan ke Blepblopia" />
-        <meta name="fc:frame:button:1:action" content="post" />
-        <meta name="fc:frame:button:1:target" content="https://blepblopia-encoder.vercel.app/api/translate-to-blepblopia" />
+        <meta name='fc:frame' content='{"version":"next","imageUrl":"https://blepblopia-encoder.vercel.app/og-image.png","aspectRatio":"3:2","button":{"title":"Translate","action":{"type":"launch_frame","name":"Blepblopia Translator","url":"https://blepblopia-encoder.vercel.app","splashImageUrl":"https://blepblopia-encoder.vercel.app/splash.png","splashBackgroundColor":"#a1a1ff"}}}' />
         <meta httpEquiv="Cache-Control" content="public, max-age=31536000" />
       </Head>
       <div className={styles.body}>
