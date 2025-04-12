@@ -1,114 +1,9 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
 import styles from '../styles/Home.module.css';
 
-// Define the type for the Blepblopia code mapping
-interface BlepblopiaCode {
-  [key: string]: string;
-}
-
 export default function Home() {
-  const [input, setInput] = useState<string>('');
-  const [output, setOutput] = useState<string>('');
-  const [isCopied, setIsCopied] = useState<boolean>(false);
-  const [isLandscape, setIsLandscape] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
-  const blepblopiaCode: BlepblopiaCode = {
-    a: 'blep', b: 'blub', c: 'blop', d: 'dlep', e: 'blib',
-    f: 'flub', g: 'glop', h: 'hlep', i: 'blip', j: 'jlub',
-    k: 'klop', l: 'lblep', m: 'mlub', n: 'nlop', o: 'blopz',
-    p: 'pleb', q: 'qlub', r: 'rblub', s: 'slep', t: 'tlop',
-    u: 'blubz', v: 'vlep', w: 'wblop', x: 'xlub', y: 'yblep',
-    z: 'zlop', ' ': 'bblb',
-  };
-
-  useEffect(() => {
-    console.log('Halaman utama dimuat');
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 1000);
-
-    // Detect mobile device
-    const checkIsMobile = () => {
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      const isSmallScreen = window.innerWidth <= 768;
-      setIsMobile(isTouchDevice && isSmallScreen);
-    };
-
-    // Handle orientation for mobile devices
-    const handleOrientation = () => {
-      setIsLandscape(window.matchMedia('(orientation: landscape)').matches);
-    };
-
-    checkIsMobile();
-    handleOrientation();
-
-    window.addEventListener('resize', () => {
-      checkIsMobile();
-      handleOrientation();
-    });
-
-    return () => {
-      window.removeEventListener('resize', checkIsMobile);
-      window.removeEventListener('resize', handleOrientation);
-    };
-  }, []);
-
-  const textToBlepblopia = (text: string): string => {
-    return text
-      .toLowerCase()
-      .split('')
-      .map((char) => blepblopiaCode[char] || char)
-      .join(' ');
-  };
-
-  const blepblopiaToText = (blepblopia: string): string => {
-    let cleanedInput = blepblopia.replace(/( blip| blub| blep)$/i, '');
-    const words = cleanedInput.split(' ');
-    return words
-      .map((word) => {
-        return (
-          Object.keys(blepblopiaCode).find(
-            (key) => blepblopiaCode[key].toLowerCase() === word.toLowerCase()
-          ) || word
-        );
-      })
-      .join('');
-  };
-
-  const translateToBlepblopia = () => {
-    const result = textToBlepblopia(input) + ' blub';
-    setOutput(result);
-  };
-
-  const translateToText = () => {
-    const result = blepblopiaToText(input);
-    setOutput(result);
-  };
-
-  const copyResult = async () => {
-    if (!output) return;
-    try {
-      await navigator.clipboard.writeText(output);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    } catch (err) {
-      console.error('Copy failed:', err);
-      const textarea = document.createElement('textarea');
-      textarea.value = output;
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
-      } catch (err) {
-        console.error('Fallback copy failed:', err);
-      }
-      document.body.removeChild(textarea);
-    }
-  };
+  console.log('Halaman utama dimuat');
+  console.log('Rendering Head dengan metadata fc:frame');
 
   return (
     <>
@@ -125,44 +20,35 @@ export default function Home() {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         {/* Farcaster Frame metadata */}
-        <meta name='fc:frame' content='{"version":"next","imageUrl":"https://blepblopia-encoder.vercel.app/og-image.png","aspectRatio":"3:2","button":{"title":"Translate","action":{"type":"launch_frame","name":"Blepblopia Translator","url":"https://blepblopia-encoder.vercel.app","splashImageUrl":"https://blepblopia-encoder.vercel.app/splash.png","splashBackgroundColor":"#a1a1ff"}}}' />
-        <meta httpEquiv="Cache-Control" content="public, max-age=31536000" />
+        <meta name="fc:frame" content="vNext" />
+        <meta name="fc:frame:image" content="https://blepblopia-encoder.vercel.app/og-image.png" />
+        <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
+        <meta name="fc:frame:input:text" content="Masukkan teks untuk diterjemahkan" />
+        <meta name="fc:frame:button:1" content="Terjemahkan ke Blepblopia" />
+        <meta name="fc:frame:button:1:action" content="post" />
+        <meta name="fc:frame:button:1:target" content="https://blepblopia-encoder.vercel.app/api/translate-to-blepblopia" />
+        {/* Nonaktifkan cache */}
+        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Expires" content="0" />
       </Head>
       <div className={styles.body}>
-        {isLoading && <div className={styles.loading}>Memuat...</div>}
-        {isMobile && isLandscape && (
-          <div className={styles.orientationWarning}>
-            Harap putar perangkat Anda ke mode potret
-          </div>
-        )}
-        <div className={`${styles.container} ${isLoading ? styles.hidden : ''}`}>
+        <div className={styles.container}>
           <h2>Blepblopia Translator</h2>
-          <textarea
-            className={styles.textarea}
-            placeholder="Masukkan teks atau kode Blepblopia"
-            value={input}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setInput(e.target.value)
-            }
-          />
-          <div className={styles.buttonContainer}>
-            <button className={styles.button} onClick={translateToBlepblopia}>
-              Teks ke Blepblopia
-            </button>
-            <button className={styles.button} onClick={translateToText}>
-              Blepblopia ke Teks
-            </button>
-          </div>
-          <div className={styles.output}>{output || ' '}</div>
-          <button
-            className={`${styles.copyButton} ${isCopied ? styles.copied : ''}`}
-            onClick={copyResult}
-            disabled={!output}
-          >
-            {isCopied ? 'Tersalin!' : 'Salin Hasil'}
-          </button>
+          <p>Masukkan teks di Mini App untuk diterjemahkan.</p>
         </div>
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  console.log('getServerSideProps dipanggil');
+  // Tambahkan header untuk memastikan cache dinonaktifkan
+  context.res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  context.res.setHeader('Pragma', 'no-cache');
+  context.res.setHeader('Expires', '0');
+  return {
+    props: {},
+  };
 }
